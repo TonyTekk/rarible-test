@@ -1,9 +1,6 @@
 <html>
 <head>
-    <script
-            src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <style>
     body {
@@ -11,13 +8,22 @@
         margin: 0;
         padding: 0;
     }
+
     main {
         display: flex;
-        align-items: center;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
     }
+
     .items {
-        max-width: 1100px;
+        width: 1100px;
+        padding: 4px;
+    }
+
+    .item {
+        width: 550px;
+        float: left;
     }
 
     a, button {
@@ -33,15 +39,13 @@
     align-items: center;
     font-family: "Circular Std", Helvetica, Arial, sans-serif;
     background-color: white;
-    margin: 8px;
+    margin: 4px;
     padding: 8px;
-
-    width: 500px;
-    float: left;
 }
 
 .desc-container {
     margin: 0 8px;
+    font-size: 14px;
 }
 
 .avatar {
@@ -72,6 +76,10 @@
     position: relative;
 }
 
+.sectionHeader {
+    font-size: 12px;
+}
+
 .details {
     display: flex;
     flex-direction: column;
@@ -86,13 +94,10 @@
     margin: 8px 0;
 }
 
-
-element.style {
-}
-
 .asset-container img {
-    height: 100%;
+    height: 240px;
     width: 240px;
+    object-fit: cover;
 }
 
 </style>
@@ -100,27 +105,25 @@ element.style {
 <body>
 
 <main>
-
     <div class="items">
         <div class="item" data-key="0x60f80121c31a0d46b5279700f9df786054aa5ee5" data-id="567907"></div>
         <div class="item" data-key="0xd07dc4262bcdbf85190c01c996b4c06a461d2430" data-id="91100"></div>
         <div class="item" data-key="0xd07dc4262bcdbf85190c01c996b4c06a461d2430" data-id="92013"></div>
         <div class="item" data-key="0x60f80121c31a0d46b5279700f9df786054aa5ee5" data-id="76732"></div>
     </div>
-
 </main>
-<script src="https://unpkg.com/rariembed/rariembed.bundled.js" type="module"></script>
+
 <script>
     $(document).ready(function () {
 
         $('.item').each(function(obj){
             var key = $(this).attr('data-key');
             var id = $(this).attr('data-id');
-
+            var _this = this;
 
             $.get('https://api.rarible.org/v0.1/items/ETHEREUM:'+ key + ':' + id).done(function (data) {
-                console.log('Start', data.collection);
-                console.log('Start', data);
+                console.log('Data: ', data);
+
                 var meta = data.meta;
                 var bestSellOrder = data.bestSellOrder;
                 var priceUSD = +bestSellOrder.makePriceUsd;
@@ -133,65 +136,57 @@ element.style {
             </a>
         </div>
         <div class="details">
-            <div class="ownershipAndCollection">
+            <div class="ownershipAndCollection flex">
                 <div>
                     <span class="sectionHeader">Collection</span>
                     <div class="collection">
                         <div class="flex avatar-container">
-                            <img class="avatar" src="https://img.rarible.com/prod/image/upload/t_avatar_big/prod-collections/ETHEREUM-0xd07dc4262bcdbf85190c01c996b4c06a461d2430/avatar/QmUNbMmMtbzP5ZwpQ7X77cNEqR5DvEmDYqWvw1QQkx7nbE" alt="Rarible" title="Rarible"></div>
-                            <div class="desc-container">
-                                <a target="_blank" href="https://rarible.com/collection/0xd07dc4262bcdbf85190c01c996b4c06a461d2430">
-                                    <span>Rarible</span>
-                                </a>
-                            </div>
+                            <img class="avatar" src="https://img.rarible.com/prod/image/upload/t_avatar_big/prod-collections/ETHEREUM-0xd07dc4262bcdbf85190c01c996b4c06a461d2430/avatar/QmUNbMmMtbzP5ZwpQ7X77cNEqR5DvEmDYqWvw1QQkx7nbE" alt="Rarible" title="Rarible">
                         </div>
-                    </div>
-
-                    <div>
-                        <span class="sectionHeader">Owner</span>
-
-                        <div class="collection">
-                            <div class="flex avatar-container">
-                                <img class="avatar" src="https://theme.zdassets.com/theme_assets/10342982/bb8d2a7ec0e54ad27a114410b18e9716a3bf9883.png" alt="VOVA LOVA" title="VOVA LOVA">
-                            </div>
-
-                            <div class="desc-container">
-                                <a target="_blank" href="https://rarible.com/users/vovalova"><span>VOVA LOVA</span></a>
-                            </div>
+                        <div class="desc-container">
+                            <a target="_blank" href="https://rarible.com/collection/0xd07dc4262bcdbf85190c01c996b4c06a461d2430">
+                                <span>Rarible</span>
+                            </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex">
-                     <p>${meta.name}</p>
-                </div>
+                <div>
+                    <span class="sectionHeader">Owner</span>
+                     <div class="collection">
+                         <div class="flex avatar-container">
+                            <img class="avatar" src="https://theme.zdassets.com/theme_assets/10342982/bb8d2a7ec0e54ad27a114410b18e9716a3bf9883.png" alt="VOVA LOVA" title="VOVA LOVA">
+                         </div>
 
-                <div class="flex" style="align-items:center;gap:2em">
-                    <span style="font-size:25px">${bestSellOrder.makePrice} ETH</span>
-                    <span style="color:grey">${priceUSD.toFixed(2)} USD</span>
+                         <div class="desc-container">
+                            <a target="_blank" href="https://rarible.com/users/vovalova"><span>VOVA LOVA</span></a>
+                         </div>
+                     </div>
                 </div>
+            </div>
 
-                <div style="margin-top:2em">
-                    <button class="button">
-                        <a target="_blank" href="https://rarible.com/token/${key}:${id}">See on Rarible ❯</a>
-                    </button>
-                </div>
+            <div class="flex">
+                <p>${meta.name}</p>
+            </div>
 
+            <div class="flex" style="align-items:center;gap:2em">
+                <span style="font-size:25px">${bestSellOrder.makePrice} ETH</span>
+                <span style="color:grey">${priceUSD.toFixed(2)} USD</span>
+            </div>
+
+            <div style="margin-top:2em">
+                <button class="button">
+                    <a target="_blank" href="https://rarible.com/token/${key}:${id}">See on Rarible ❯</a>
+                </button>
             </div>
 
         </div>
-                `;
+  </div>
+`;
 
-                $('.items').append(html);
-
+                $(_this).append(html);
             }).catch(function(error) { console.error(error)});
-
-
-
         });
-
-
-
     });
 </script>
 
